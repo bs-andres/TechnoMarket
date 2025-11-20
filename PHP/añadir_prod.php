@@ -14,8 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $mensaje = "Todos los campos son obligatorios.";
     } else {
 
-        $sql = "INSERT INTO productos (producto, precio, categoria, stock) 
-                VALUES (:producto, :precio, :categoria, :stock)";
+        $sql = "INSERT INTO productos (producto, precio, categoria, stock) VALUES (:producto, :precio, :categoria, :stock)";
 
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(":producto", $producto);
@@ -24,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->bindParam(":stock", $stock);
 
         if ($stmt->execute()) {
-            header("Location: index.php?mensaje=creado");
+            header("Location: index.php");
             exit;
         } else {
             $mensaje = "Error al guardar el producto.";
@@ -39,6 +38,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Añadir Producto</title>
+
+    <style>
+        .form-container {
+            max-width: 300px;
+            margin: auto;
+        }
+    </style>
 </head>
 
 <body>
@@ -46,32 +52,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <nav class="navbar navbar-expand-sm bg-success navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.php">Gestor de Productos</a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="menu">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="añadir_prod.php">Añadir Producto</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php">Listar Productos</a>
-                    </li>
-                </ul>
-            </div>
         </div>
     </nav>
 
-
     <div class="container mt-4">
-        
-        <h2 class="mb-4">Añadir Nuevo Producto</h2>
+
+        <h2 class="mb-4 text-center">Añadir Nuevo Producto</h2>
 
         <?= $mensaje ?>
 
-        <div class="card shadow-sm">
+        <div class="card shadow-sm form-container">
             <div class="card-body">
 
                 <form action="" method="POST">
@@ -104,5 +94,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
         </div>
     </div>
+
 </body>
 </html>
