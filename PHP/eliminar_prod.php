@@ -1,11 +1,11 @@
 <?php
-require_once "conexion.php";//conexion
+require_once "conexion.php";//
 
-if (!isset($_GET['id'])) {//recibe el id del boton
+if (!isset($_GET['id'])) {//recibe el id
     die("ID de producto no especificado.");
 }
 
-$id = intval($_GET['id']);
+$id = intval($_GET['id']);//variable con id
 
 $stmt = $pdo->prepare("DELETE FROM productos WHERE id_producto = ?");//borra
 $stmt->execute([$id]);

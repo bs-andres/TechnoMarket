@@ -13,35 +13,26 @@ $productos = $sql->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="../css/estilo.css">
-    <title>Listado de Productos</title>
+    <title>TechnoMarket</title>
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
+    <!-- navbar -->
     <nav class="navbar bg-success navbar-dark">
-        <div class="container-fluid d-flex align-items-center justify-content-start">
-            
-            <img src="../logo.png" alt="TechnoMarket"
-                class="img-fluid me-3"
-                style="max-height: 67px;">
-            
-            <a class="btn btn-success text-white fw-bold" href="añadir_prod.php">
-                Añadir Producto
-            </a>
-
+        <div class="container-fluid d-flex justify-content-start">
+            <img src="../logo_trans.png" alt="TechnoMarket" class="img-fluid me-3">
+            <a class="btn btn-success text-white fw-bold" href="añadir_prod.php">Añadir Producto</a>
         </div>
     </nav>
-
-
-
-    <!-- CONTENIDO -->
+    
     <div class="container mt-4">
-        <h2 class="mb-4">Listado de Productos</h2>
+        <h2 class="mb-4">Catalogo de Productos</h2>
         <div class="table-responsive">
-            <table class="table">
+            <table class="table table-striped">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Nombre</th>
                         <th>Categoría</th>
                         <th>Precio</th>
@@ -51,16 +42,16 @@ $productos = $sql->fetchAll(PDO::FETCH_ASSOC);
                 </thead>
 
                 <tbody>
-                    <?php foreach ($productos as $producto): ?>
+                    <?php foreach ($productos as $producto): //recorre los productos ?>
                     <tr>
-                        <td><?= htmlspecialchars($producto['producto']) ?></td>
+                        <td><?= htmlspecialchars($producto['id_producto']) //lo muestra en la tabla?></td>
+                        <td><?= htmlspecialchars($producto['producto'])?></td>
                         <td><?= htmlspecialchars($producto['categoria']) ?></td>
                         <td>$<?= number_format($producto['precio']) ?></td>
                         <td><?= $producto['stock'] ?></td>
                         <td>
-                            <a href="editar.php?id=<?= $producto['id_producto'] ?>" class="btn btn-sm btn-info text-white">Modificar</a>
-                            <a href="eliminar_prod.php?id=<?= $producto['id_producto'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que desea eliminar este producto?');">Eliminar</a>
-                        </td>
+                            <a href="modificar_prod.php?id=<?= $producto['id_producto'] ?>"class="btn btn-sm btn-info text-white d-block d-sm-inline-block mb-2 mb-sm-0 me-sm-2">Modificar</a>
+                            <a href="eliminar_prod.php?id=<?= $producto['id_producto'] ?>" class="btn btn-sm btn-danger d-block d-sm-inline-block" onclick="return confirm('¿Seguro que desea eliminar este producto?');">Eliminar</a>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
