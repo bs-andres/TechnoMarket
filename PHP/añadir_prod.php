@@ -10,25 +10,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {//recibe el POST
     $categoria = trim($_POST["categoria"] ?? "");
     $stock     = trim($_POST["stock"] ?? "");
 
-    //verifica que no este vacio
-    if ($producto === "" || $precio === "" || $categoria === "" || $stock === "") {
-        $mensaje = "Todos los campos son obligatorios.";
+    //inserta en la bd
+    $sql = "INSERT INTO productos (producto, precio, categoria, stock) VALUES (:producto, :precio, :categoria, :stock)";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(":producto", $producto);
+    $stmt->bindParam(":precio", $precio);
+    $stmt->bindParam(":categoria", $categoria);
+    $stmt->bindParam(":stock", $stock);
+
+    if ($stmt->execute()) {
+        header("Location: index.php");
+        exit;
     } else {
-        //inserta en la bd
-        $sql = "INSERT INTO productos (producto, precio, categoria, stock) VALUES (:producto, :precio, :categoria, :stock)";
-
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(":producto", $producto);
-        $stmt->bindParam(":precio", $precio);
-        $stmt->bindParam(":categoria", $categoria);
-        $stmt->bindParam(":stock", $stock);
-
-        if ($stmt->execute()) {
-            header("Location: index.php");
-            exit;
-        } else {
-            $mensaje = "Error al guardar el producto.";
-        }
+        $mensaje = "Error al guardar el producto.";
     }
 }
 ?>
@@ -46,14 +41,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {//recibe el POST
 <body>
     <nav class="navbar bg-success navbar-dark">
         <div class="container-fluid d-flex align-items-center justify-content-start">
-            <img src="../logo_trans.png" alt="TechnoMarket" class="img-fluid me-3" style="max-height: 80px;">
+            <img src="../logo_trans.png" alt="TechnoMarket" class="img-fluid me-3">
         </div>
     </nav>
 
     <div class="container mt-4">
         <h2 class="mb-4 text-center">Añadir Nuevo Producto</h2>
         <?= $mensaje ?>
-        <div class="card shadow-sm form-container">
+        <div class="card border-success col-md-6 mx-auto p-3">
             <div class="card-body">
                 <form action="" method="POST">
 

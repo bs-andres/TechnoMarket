@@ -1,14 +1,14 @@
 <?php
 require_once "conexion.php";
 
-// Validar ID recibido
-if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+//
+if (!isset($_GET['id'])) {
     die("ID inválido.");
 }
 
 $id = $_GET['id'];
 
-// Obtener datos del producto
+//datos a modificar
 $stmt = $pdo->prepare("SELECT * FROM productos WHERE id_producto = ?");
 $stmt->execute([$id]);
 $producto = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -19,7 +19,7 @@ if (!$producto) {
 
 $mensaje = "";
 
-// Si envían el formulario
+//si llego el form
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $nombre    = trim($_POST["producto"]);
@@ -30,16 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($nombre === "" || $categoria === "" || $precio === "" || $stock === "") {
         $mensaje = "Todos los campos son obligatorios.";
     } else {
-        // Actualizar datos
-        $update = $pdo->prepare("
-            UPDATE productos 
-            SET producto = ?, categoria = ?, precio = ?, stock = ?
-            WHERE id_producto = ?
-        ");
+        //actualiza datos
+        $update = $pdo->prepare(" UPDATE productos SET producto = ?, categoria = ?, precio = ?, stock = ? WHERE id_producto = ?");
 
         $update->execute([$nombre, $categoria, $precio, $stock, $id]);
 
-        // Redirigir al listado
         header("Location: index.php");
         exit;
     }
@@ -53,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="../css/estilo.css">
+    <link rel="stylesheet" href="../css/estilos.css">
     <title>Modificar Producto</title>
 </head>
 <body>
@@ -68,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <?php if ($mensaje): ?>
             <div class="alert alert-danger"><?= $mensaje ?></div>
         <?php endif; ?>
-        <div class="card shadow col-md-6 mx-auto p-4">
+        <div class="card border-success col-md-6 mx-auto p-4">
             <form method="POST">
                 <div class="mb-2">
                     <label class="form-label">Producto</label>
