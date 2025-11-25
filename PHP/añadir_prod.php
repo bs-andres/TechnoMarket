@@ -1,7 +1,7 @@
 <?php
 require_once "conexion.php";
 
-$mensaje = "";
+$error = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {//recibe el POST
 
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {//recibe el POST
         header("Location: index.php");
         exit;
     } else {
-        $mensaje = "Error al guardar el producto.";
+        $error = "Error al añadir el producto.";
     }
 }
 ?>
@@ -40,18 +40,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {//recibe el POST
 
 <body>
     <nav class="navbar bg-success navbar-dark">
-        <div class="container-fluid d-flex align-items-center justify-content-start">
+        <div class="container-fluid d-flex justify-content-start">
             <img src="../logo_trans.png" alt="TechnoMarket" class="img-fluid me-3">
         </div>
     </nav>
 
     <div class="container mt-4">
         <h2 class="mb-4 text-center">Añadir Nuevo Producto</h2>
-        <?= $mensaje ?>
-        <div class="card border-success col-md-6 mx-auto p-3">
+        <?= $error ?>
+        <div class="card border-success col-md-6 mx-auto">
             <div class="card-body">
                 <form action="" method="POST">
-
                     <div class="mb-2">
                         <label class="form-label">Nombre del producto</label>
                         <input type="text" name="producto" class="form-control" required>

@@ -1,7 +1,6 @@
 <?php
 require_once "conexion.php";
 
-//
 if (!isset($_GET['id'])) {
     die("ID inválido.");
 }
@@ -17,7 +16,7 @@ if (!$producto) {
     die("Producto no encontrado.");
 }
 
-$mensaje = "";
+$error = "";
 
 //si llego el form
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -28,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stock     = trim($_POST["stock"]);
 
     if ($nombre === "" || $categoria === "" || $precio === "" || $stock === "") {
-        $mensaje = "Todos los campos son obligatorios.";
+        $error = "Todos los campos son obligatorios.";
     } else {
         //actualiza datos
         $update = $pdo->prepare(" UPDATE productos SET producto = ?, categoria = ?, precio = ?, stock = ? WHERE id_producto = ?");
@@ -53,41 +52,43 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 <body>
     <nav class="navbar bg-success navbar-dark">
-        <div class="container-fluid d-flex align-items-center justify-content-start">
+        <div class="container-fluid d-flex justify-content-start">
             <img src="../logo_trans.png" alt="TechnoMarket" class="img-fluid me-3" style="max-height: 80px;">
         </div>
     </nav>
 
     <div class="container mt-4">
         <h2 class="mb-4 text-center">Modificar Producto</h2>
-        <?php if ($mensaje): ?>
-            <div class="alert alert-danger"><?= $mensaje ?></div>
+        <?php if ($error): ?>
+            <div class="alert alert-danger"><?= $error ?></div>
         <?php endif; ?>
-        <div class="card border-success col-md-6 mx-auto p-4">
-            <form method="POST">
-                <div class="mb-2">
-                    <label class="form-label">Producto</label>
-                    <input type="text" name="producto" class="form-control" value="<?= htmlspecialchars($producto['producto']) ?>" required>
-                </div>
+        <div class="card border-success col-md-6 mx-auto">
+            <div class="card-body">
+                <form action="" method="POST">
+                    <div class="mb-2">
+                        <label class="form-label">Producto</label>
+                        <input type="text" name="producto" class="form-control" value="<?= ($producto['producto']) ?>" required>
+                    </div>
 
-                <div class="mb-2">
-                    <label class="form-label">Categoría</label>
-                    <input type="text" name="categoria" class="form-control" value="<?= htmlspecialchars($producto['categoria']) ?>" required>
-                </div>
+                    <div class="mb-2">
+                        <label class="form-label">Categoría</label>
+                        <input type="text" name="categoria" class="form-control" value="<?= ($producto['categoria']) ?>" required>
+                    </div>
 
-                <div class="mb-2">
-                    <label class="form-label">Precio</label>
-                    <input type="number" name="precio" min="1" class="form-control" value="<?= $producto['precio'] ?>" required>
-                </div>
+                    <div class="mb-2">
+                        <label class="form-label">Precio</label>
+                        <input type="number" name="precio" min="1" class="form-control" value="<?= $producto['precio'] ?>" required>
+                    </div>
 
-                <div class="mb-2">
-                    <label class="form-label">Stock</label>
-                    <input type="number" name="stock" min="0" class="form-control" value="<?= $producto['stock'] ?>" required>
-                </div>
+                    <div class="mb-2">
+                        <label class="form-label">Stock</label>
+                        <input type="number" name="stock" min="0" class="form-control" value="<?= $producto['stock'] ?>" required>
+                    </div>
 
-                <button class="btn btn-success" type="submit">Actualizar</button>
-                <a href="index.php" class="btn btn-info text-white">Volver</a>
-            </form>
+                    <button class="btn btn-success" type="submit">Actualizar</button>
+                    <a href="index.php" class="btn btn-info text-white">Volver</a>
+                </form>
+            </div>
         </div>
     </div>
 </body>
