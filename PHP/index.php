@@ -22,40 +22,49 @@ $productos = $sql->fetchAll(PDO::FETCH_ASSOC);
     <nav class="navbar bg-success navbar-dark">
         <div class="container-fluid d-flex justify-content-start">
             <img src="../logo_trans.png" alt="TechnoMarket" class="img-fluid me-3">
-            <a class="btn btn-outline-info text-white" href="añadir_prod.php">Añadir Producto</a>
+            <a class="btn btn-outline-info text-white me-3" href="crear.php">Añadir Producto</a>
+            <a class="btn btn-outline-info text-white" href="index.php">Ver Productos</a>
         </div>
     </nav>
     
     <div class="container mt-4">
-        <h2 class="mb-4">Catalogo de Productos</h2>
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Categoría</th>
-                        <th>Precio</th>
-                        <th>Stock</th>
-                        <th></th>
-                    </tr>
-                </thead>
+        <div class="card border-success col-md-8 mx-auto" >
+            
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Catálogo de productos</h5>
+            </div>
 
-                <tbody>
-                    <?php foreach ($productos as $producto): //recorre los productos ?>
-                    <tr>
-                        <td><?= htmlspecialchars($producto['id_producto']) //lo muestra en la tabla?></td>
-                        <td><?= htmlspecialchars($producto['producto'])?></td>
-                        <td><?= htmlspecialchars($producto['categoria']) ?></td>
-                        <td>$<?= number_format($producto['precio']) ?></td>
-                        <td><?= $producto['stock'] ?></td>
-                        <td>
-                            <a href="modificar_prod.php?id=<?= $producto['id_producto'] ?>"class="btn btn-sm btn-info text-white d-block d-sm-inline-block mb-2 mb-sm-0 me-sm-2">Modificar</a>
-                            <a href="eliminar_prod.php?id=<?= $producto['id_producto'] ?>" class="btn btn-sm btn-danger d-block d-sm-inline-block" onclick="return confirm('¿Esta seguro que quiere eliminar este producto?');">Eliminar</a>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped text-center">
+                        <thead class="table-success">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Categoría</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <?php foreach ($productos as $producto): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($producto['id_producto']) ?></td>
+                                <td><?= htmlspecialchars($producto['producto']) ?></td>
+                                <td><?= htmlspecialchars($producto['categoria']) ?></td>
+                                <td>$<?= number_format($producto['precio']) ?></td>
+                                <td><?= $producto['stock'] ?></td>
+                                <td><a href="editar.php?id=<?= $producto['id_producto'] ?>" class="btn btn-sm btn-info text-white">Modificar</a></td>
+                                <td><a href="eliminar.php?id=<?= $producto['id_producto'] ?>" class="btn btn-sm btn-danger"onclick="return confirm('¿Está seguro que quiere eliminar este producto?');">Eliminar</a></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </body>
